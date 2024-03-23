@@ -21,6 +21,11 @@ const Event = db.define<EventTypes>(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    condition: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
     startDateTime: {
       type: DataTypes.DATE,
       allowNull: false,

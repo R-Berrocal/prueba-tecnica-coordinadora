@@ -1,4 +1,9 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
+import {
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 
 export interface EventTypes
   extends Model<
@@ -9,6 +14,7 @@ export interface EventTypes
   title: string;
   description: CreationOptional<string>;
   location: CreationOptional<string>;
+  condition: boolean;
   startDateTime: Date;
   endDateTime: CreationOptional<Date>;
   organizerId: string;
