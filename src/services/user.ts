@@ -3,6 +3,7 @@ import bcryptjs from 'bcryptjs';
 import User from '../database/models/user';
 import { ErrorObject } from '../helpers/error';
 import { UserTypes } from '../interfaces';
+import { Event } from '../database/models';
 
 export const createUser = async (userBody: UserTypes) => {
   try {
@@ -15,7 +16,7 @@ export const createUser = async (userBody: UserTypes) => {
 
     return await user.save();
   } catch (error: any) {
-    if(error.parent?.code === '23505') {
+    if (error.parent?.code === '23505') {
       throw new ErrorObject('User already exists', 400);
     }
     throw new ErrorObject(error.message, error.statusCode || 500);
@@ -30,6 +31,7 @@ export const getUsers = async (limit: number, offset: number) => {
       },
       offset,
       limit,
+      include: [{ model: Event, as: 'events' }],
     });
     return users;
   } catch (error: any) {
