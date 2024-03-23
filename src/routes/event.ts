@@ -6,14 +6,18 @@ import {
   postEvent,
   updateEvent,
 } from '../controllers/event';
-import { createEventMiddleware } from '../middlewares';
+import {
+  createEventMiddleware,
+  updateEventMiddleware,
+  validateJWT,
+} from '../middlewares';
 
 const router = express.Router();
 
 router.post('/', createEventMiddleware, postEvent);
-router.get('/', getAllEvents);
-router.get('/:id', getEvent);
-router.put('/:id', updateEvent);
-router.delete('/:id', deleteEvent);
+router.get('/', validateJWT, getAllEvents);
+router.get('/:id', validateJWT, getEvent);
+router.put('/:id', updateEventMiddleware, updateEvent);
+router.delete('/:id', validateJWT, deleteEvent);
 
 export default router;

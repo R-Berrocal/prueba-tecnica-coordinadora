@@ -42,7 +42,10 @@ export const getEventById = async (id: string) => {
   }
 };
 
-export const updateEvent = async (id: string, eventBody: EventTypes) => {
+export const updateEvent = async (
+  id: string,
+  { id: eventId, ...eventBody }: EventTypes
+) => {
   try {
     const event = await getEventById(id);
     await event.update(eventBody);
