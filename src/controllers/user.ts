@@ -10,7 +10,7 @@ export const postUser = catchAsync(
       const user = await userService.createUser(body);
       endpointResponse({
         res,
-        message: 'Get All Users Successfully',
+        message: 'User Created Successfully',
         body: user,
       });
     } catch (error: any) {

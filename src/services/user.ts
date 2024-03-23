@@ -41,9 +41,7 @@ export const getUsers = async (limit: number, offset: number) => {
 
 export const deleteUser = async (id: string) => {
   try {
-    const user = await User.findByPk(id);
-
-    if (!user) throw new ErrorObject('User not found', 404);
+    const user = await getUserById(id);
 
     user.update({ condition: false });
 
@@ -71,7 +69,7 @@ export const getUserByEmail = async (email: string) => {
 export const getUserById = async (id: string) => {
   try {
     const user = await User.findByPk(id);
-    if (!user) throw new ErrorObject('User not found', 404);
+    if (!user) throw new ErrorObject(`User not found with id: ${id}`, 404);
     return user;
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);

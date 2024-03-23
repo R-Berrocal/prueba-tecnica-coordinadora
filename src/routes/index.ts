@@ -2,6 +2,7 @@ import express from 'express';
 import { get } from '../controllers';
 import users from './user';
 import auth from './auth';
+import event from './event';
 
 const router = express.Router();
 
@@ -9,5 +10,6 @@ const router = express.Router();
 router.get('/', get);
 router.use('/users', users);
 router.use('/auth', auth);
+router.use('/events', event);
 
 export default router;
