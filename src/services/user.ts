@@ -15,6 +15,9 @@ export const createUser = async (userBody: UserTypes) => {
 
     return await user.save();
   } catch (error: any) {
+    if(error.parent?.code === '23505') {
+      throw new ErrorObject('User already exists', 400);
+    }
     throw new ErrorObject(error.message, error.statusCode || 500);
   }
 };
