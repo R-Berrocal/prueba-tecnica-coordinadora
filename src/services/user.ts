@@ -68,7 +68,12 @@ export const getUserByEmail = async (email: string) => {
 
 export const getUserById = async (id: string) => {
   try {
-    const user = await User.findByPk(id);
+    const user = await User.findOne({
+      where: {
+        id,
+        condition: true,
+      },
+    });
     if (!user) throw new ErrorObject(`User not found with id: ${id}`, 404);
     return user;
   } catch (error: any) {

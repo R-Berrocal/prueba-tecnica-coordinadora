@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import { ErrorObject } from '../helpers/error';
 import { EventTypes } from '../interfaces';
-import { Event } from '../database/models';
+import { Event, User } from '../database/models';
 import * as userServices from './user';
 
 export const createEvent = async (eventBody: EventTypes) => {
@@ -24,7 +24,7 @@ export const getEvents = async (limit: number, offset: number) => {
       },
       offset,
       limit,
-      include: [{ model: Event, as: 'events' }],
+      include: [{ model: User, as: 'organizer' }],
     });
     return users;
   } catch (error: any) {
@@ -34,7 +34,7 @@ export const getEvents = async (limit: number, offset: number) => {
 
 export const getEventById = async (id: string) => {
   try {
-    const event = await Event.findByPk(id);
+    const event = await Event.findOne({ where: { id, condition: true } });
     if (!event) throw new ErrorObject(`Event not found with id: ${id}`, 404);
     return event;
   } catch (error: any) {
