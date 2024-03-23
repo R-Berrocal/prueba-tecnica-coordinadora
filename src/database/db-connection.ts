@@ -14,7 +14,7 @@ const db = new Sequelize(
 export const dbConnection = async () => {
   try {
     await db.authenticate();
-    // db.sync();
+    db.sync();
     drawLogger(2, 'Connection has been established succesfully');
   } catch (error: any) {
     throw new Error(error);
