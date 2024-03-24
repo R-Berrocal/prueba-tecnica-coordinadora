@@ -7,7 +7,6 @@ export interface LocationTypes
   > {
   id: string;
   eventId: string;
-  address: string;
   latitude: number;
   longitude: number;
 }

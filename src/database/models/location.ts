@@ -13,10 +13,6 @@ const Locations = db.define<LocationTypes>(
       type: DataTypes.UUID,
       allowNull: false,
     },
-    address: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
     latitude: {
       type: DataTypes.FLOAT,
       allowNull: false,

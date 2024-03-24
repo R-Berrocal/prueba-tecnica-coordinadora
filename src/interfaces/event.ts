@@ -24,3 +24,13 @@ export interface PaginationDto {
   limit: number;
   title: string;
 }
+
+export interface EventDto {
+  title: string;
+  description: string;
+  startDateTime: Date;
+  endDateTime: Date;
+  organizerId: string;
+  latitude: number;
+  longitude: number;
+}

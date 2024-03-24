@@ -35,4 +35,4 @@ Location.belongsTo(Event, {
   as: 'event',
 });
 
-export { User, Event, EventRegistrations };
+export { User, Event, EventRegistrations, Location };

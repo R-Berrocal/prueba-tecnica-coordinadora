@@ -3,15 +3,29 @@ import { v4 } from 'uuid';
 import { UploadedFile } from 'express-fileupload';
 import { ErrorObject } from '../helpers/error';
 import { readExcelFile } from '../helpers/readExcelFile';
-import { EventTypes, PaginationDto } from '../interfaces';
-import { Event, EventRegistrations, User } from '../database/models';
+import { EventDto, PaginationDto } from '../interfaces';
+import { Event, EventRegistrations, Location, User } from '../database/models';
 import * as userServices from './user';
 
-export const createEvent = async (eventBody: EventTypes) => {
+export const createEvent = async ({
+  latitude,
+  longitude,
+  ...eventDto
+}: EventDto) => {
   try {
-    await userServices.getUserById(eventBody.organizerId);
-    eventBody.id = v4();
-    const event = Event.build(eventBody);
+    await userServices.getUserById(eventDto.organizerId);
+    const event = Event.build({
+      id: v4(),
+      condition: true,
+      ...eventDto,
+    });
+
+    Location.create({
+      id: v4(),
+      eventId: event.id,
+      latitude,
+      longitude,
+    });
 
     return await event.save();
   } catch (error: any) {
@@ -61,7 +75,7 @@ export const getEventById = async (id: string) => {
 
 export const updateEvent = async (
   id: string,
-  { id: eventId, organizerId, ...eventBody }: EventTypes
+  { organizerId, ...eventBody }: EventDto
 ) => {
   try {
     if (organizerId) await userServices.getUserById(organizerId);
@@ -150,7 +164,7 @@ export const loadEvents = async (userAuthId: string, file: UploadedFile) => {
         startDateTime: new Date(event.startDateTime),
         endDateTime: new Date(event.endDateTime),
       };
-      await createEvent(newEvent as EventTypes);
+      await createEvent(newEvent as EventDto);
     });
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);
