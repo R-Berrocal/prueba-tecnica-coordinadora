@@ -8,6 +8,7 @@ import {
   registerAssistants,
   updateEvent,
   loadEvents,
+  getEventNearbyLocations,
 } from '../controllers/event';
 import {
   createEventMiddleware,
@@ -26,5 +27,6 @@ router.delete('/:id', validateJWT, deleteEvent);
 router.post('/:id/register', validateJWT, registerAssistants);
 router.get('/:id/registrations', validateJWT, getAssistants);
 router.post('/load', [validateJWT, validateFiles], loadEvents);
+router.get('/:id/nearby', validateJWT, getEventNearbyLocations);
 
 export default router;

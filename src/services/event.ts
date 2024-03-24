@@ -6,6 +6,7 @@ import { readExcelFile } from '../helpers/readExcelFile';
 import { EventDto, PaginationDto } from '../interfaces';
 import { Event, EventRegistrations, Location, User } from '../database/models';
 import * as userServices from './user';
+import { getNearbyLocations } from '../helpers/getNearbyLocations';
 
 export const createEvent = async ({
   latitude,
@@ -186,6 +187,21 @@ export const loadEvents = async (userAuthId: string, file: UploadedFile) => {
 
       await createEvent(newEvent as EventDto);
     });
+  } catch (error: any) {
+    throw new ErrorObject(error.message, error.statusCode || 500);
+  }
+};
+
+export const getEventNearbyLocations = async (eventId: string) => {
+  try {
+    const eventLocation = await Location.findOne({
+      where: { eventId },
+    });
+
+    if (!eventLocation) throw new ErrorObject('Event not found', 404);
+    const { latitude, longitude } = eventLocation;
+    const nearbyLocations = await getNearbyLocations(latitude, longitude, 1000);
+    return nearbyLocations;
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }

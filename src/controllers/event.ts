@@ -623,3 +623,23 @@ export const loadEvents = catchAsync(
     }
   }
 );
+
+export const getEventNearbyLocations = catchAsync(
+  async ({ params }: Request, res: Response, next: Function) => {
+    try {
+      const { id } = params;
+      const locations = await eventServices.getEventNearbyLocations(id);
+      endpointResponse({
+        res,
+        message: 'Get event nearby locations successfully',
+        body: locations,
+      });
+    } catch (error: any) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error get event nearby locations] - [index - GET]: ${error.message}`
+      );
+      next(httpError);
+    }
+  }
+);
