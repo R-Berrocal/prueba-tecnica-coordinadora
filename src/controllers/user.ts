@@ -9,14 +9,40 @@ import { generateJWT } from '../helpers/generateJwt';
  * @swagger
  * components:
  *  securitySchemes:
- *   tokenAuth:
+ *   bearerAuth:
  *    type: http
- *    scheme: bearer
- *    bearerFormat: JWT
  *    in: header
  *    name: Authorization
- *    description: token
+ *    description: Bearer token to access these api endpoints
+ *    scheme: bearer
+ *    bearerFormat: JWT
  *    required: true
+ *  schemas:
+ *   User:
+ *    type: object
+ *    properties:
+ *     id:
+ *      type: string
+ *     name:
+ *      type: string
+ *     email:
+ *      type: string
+ *     password:
+ *      type: string
+ *     condition:
+ *      type: boolean
+ *     createdAt:
+ *      type: string
+ *     updatedAt:
+ *      type: string
+ *    example:
+ *     id: 546758dr4t342323g
+ *     name: John Doe
+ *     email: 0SjXj@example.com
+ *     password: password123
+ *     condition: true
+ *     createdAt: 2022-01-01T00:00:00.000Z
+ *     updatedAt: 2022-01-01T00:00:00.000Z 
  */
 
 /**
@@ -102,6 +128,107 @@ import { generateJWT } from '../helpers/generateJwt';
  *            updatedAt: 2022-11-04T18:37:47.000Z
  *            createdAt: 2022-11-04T18:37:47.000Z
  *           token: 546758dr4t342323g
+ */
+
+/**
+ * @swagger
+ * /api/users:
+ *  get:
+ *    tags: [User]
+ *    summary: List all users.
+ *    responses:
+ *      200:
+ *        description: List all users in database.
+ *        content:
+ *          application/json:
+ *            schema:
+ *            type: array
+ *            items:
+ *              properties:
+ *                id:
+ *                  type: string
+ *                  example: akslfjasdf
+ *                name:
+ *                  type: string
+ *                  example: Test
+ *                email:
+ *                  type: string
+ *                  example: test@test.com
+ *                password:
+ *                  type: string
+ *                  example: sadjfaskldfjaljfñlds
+ *                condition:
+ *                  type: boolean
+ *                  example: true
+ *                createdAt:
+ *                  type: string
+ *                  example: 2022-11-04T18:37:47.000Z
+ *                updatedAt:
+ *                  type: string
+ *                  example: 2022-11-04T18:37:47.000Z 
+ *      401:
+ *        description: Token is required
+ *      500:
+ *        description: Internal server error
+ *  
+ */
+
+/**
+ * @swagger
+ * /api/users/{id}:
+ *  delete:
+ *   tags: [User]
+ *   summary: Delete a user
+ *   description: Delete a user
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      schema:
+ *      type: string
+ *      required: true
+ *      description: User id
+ *   responses:
+ *    200:
+ *     description: User deleted successfully
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         status:
+ *          type: boolean
+ *         code:
+ *          type: number
+ *          example: 200
+ *         message:
+ *          type: string
+ *         body:
+ *          type: object
+ *          properties:
+ *           user:
+ *            type: object
+ *            properties:
+ *             condition:
+ *              type: boolean
+ *             name:
+ *              type: string
+ *             email:
+ *              type: string
+ *             password:
+ *              type: string
+ *             id:
+ *              type: string
+ *             updatedAt:
+ *              type: string
+ *             createdAt:
+ *              type: string
+ *    401:
+ *      description: Token is required
+ *    404:
+ *      description: User not found
+ *    500:
+ *      description: Internal server error
+ * 
  */
 
 export const postUser = catchAsync(

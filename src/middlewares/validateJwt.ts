@@ -4,14 +4,13 @@ import RequestUserAuth from '../interfaces/requestUserAuth';
 import { TokenPayload } from '../interfaces';
 import * as userServices from '../services/user';
 import { ErrorObject } from '../helpers/error';
-import { drawLogger } from '../utils/drawLogger';
 
 export const validateJWT = async (
   req: RequestUserAuth,
   res: Response,
   next: any
 ) => {
-  const token = req.header('Authorization');
+  const token = req.header('Authorization')?.replace('Bearer ', '');
   if (!token) {
     return res.status(401).json({
       msg: 'token is required',

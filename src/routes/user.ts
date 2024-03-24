@@ -5,7 +5,7 @@ import { createUserMiddleware, validateJWT } from '../middlewares';
 const router = express.Router();
 
 router.post('/', createUserMiddleware, postUser);
-router.get('/', getAllUsers);
+router.get('/', validateJWT, getAllUsers);
 router.delete('/:id', validateJWT, deleteUser);
 
 export default router;

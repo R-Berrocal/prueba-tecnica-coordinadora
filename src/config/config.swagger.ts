@@ -8,6 +8,11 @@ export const configSwagger = {
       description: 'API-RESTFUL - GESTION DE EVENTOS',
       version: '1.0.0',
     },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     servers: [
       {
         url: 'http://localhost:3000',
