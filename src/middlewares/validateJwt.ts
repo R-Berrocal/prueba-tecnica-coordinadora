@@ -8,7 +8,7 @@ import { ErrorObject } from '../helpers/error';
 export const validateJWT = async (
   req: RequestUserAuth,
   res: Response,
-  next: any
+  next: Function
 ) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
   if (!token) {

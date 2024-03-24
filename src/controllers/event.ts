@@ -1,6 +1,9 @@
 import createHttpError from 'http-errors';
 import { Request, Response } from 'express';
+import { UploadedFile } from 'express-fileupload';
+import RequestUserAuth from '../interfaces/requestUserAuth';
 import { catchAsync } from '../helpers/catchAsync';
+import { ErrorObject } from '../helpers/error';
 import { endpointResponse } from '../helpers/success';
 import * as eventServices from '../services/event';
 
@@ -548,6 +551,27 @@ export const getAssistants = catchAsync(
       const httpError = createHttpError(
         error.statusCode,
         `[Error get Assistants] - [index - GET]: ${error.message}`
+      );
+      next(httpError);
+    }
+  }
+);
+
+export const loadEvents = catchAsync(
+  async ({ user, files }: RequestUserAuth, res: Response, next: Function) => {
+    try {
+      if (!files) throw new ErrorObject('File not found', 404);
+      await eventServices.loadEvents(user.id, files.events as UploadedFile);
+
+      endpointResponse({
+        res,
+        message: 'File uploaded successfully',
+        body: 'fileUploaded',
+      });
+    } catch (error: any) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error upload file] - [index - POST]: ${error.message}`
       );
       next(httpError);
     }

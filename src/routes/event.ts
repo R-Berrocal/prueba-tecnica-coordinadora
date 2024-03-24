@@ -7,10 +7,12 @@ import {
   postEvent,
   registerAssistants,
   updateEvent,
+  loadEvents,
 } from '../controllers/event';
 import {
   createEventMiddleware,
   updateEventMiddleware,
+  validateFiles,
   validateJWT,
 } from '../middlewares';
 
@@ -23,5 +25,6 @@ router.put('/:id', updateEventMiddleware, updateEvent);
 router.delete('/:id', validateJWT, deleteEvent);
 router.post('/:id/register', validateJWT, registerAssistants);
 router.get('/:id/registrations', validateJWT, getAssistants);
+router.post('/load', [validateFiles, validateJWT], loadEvents);
 
 export default router;

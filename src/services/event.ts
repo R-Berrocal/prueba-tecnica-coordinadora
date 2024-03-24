@@ -1,6 +1,8 @@
 import { Op } from 'sequelize';
 import { v4 } from 'uuid';
+import { UploadedFile } from 'express-fileupload';
 import { ErrorObject } from '../helpers/error';
+import { readExcelFile } from '../helpers/readExcelFile';
 import { EventTypes, PaginationDto } from '../interfaces';
 import { Event, EventRegistrations, User } from '../database/models';
 import * as userServices from './user';
@@ -133,6 +135,15 @@ export const getAssistants = async (eventId: string) => {
     });
 
     return assistants;
+  } catch (error: any) {
+    throw new ErrorObject(error.message, error.statusCode || 500);
+  }
+};
+
+export const loadEvents = async (userAuthId: string, file: UploadedFile) => {
+  try {
+    const data = await readExcelFile(file.tempFilePath);
+    console.log(data);
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }
