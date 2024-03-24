@@ -1,6 +1,7 @@
 import User from './user';
 import Event from './events';
 import EventRegistrations from './eventRegistrations';
+import Location from './location';
 
 User.hasMany(Event, {
   foreignKey: 'organizerId',
@@ -24,14 +25,14 @@ Event.belongsToMany(User, {
   as: 'assistants',
 });
 
-// EventRegistrations.belongsTo(Event, {
-//   foreignKey: 'eventId',
-//   as: 'event',
-// });
+Event.hasMany(Location, {
+  foreignKey: 'eventId',
+  as: 'locations',
+});
 
-// EventRegistrations.belongsTo(User, {
-//   foreignKey: 'userId',
-//   as: 'user',
-// });
+Location.belongsTo(Event, {
+  foreignKey: 'eventId',
+  as: 'event',
+});
 
 export { User, Event, EventRegistrations };

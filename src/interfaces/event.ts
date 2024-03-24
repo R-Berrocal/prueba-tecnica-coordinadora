@@ -13,7 +13,6 @@ export interface EventTypes
   id: string;
   title: string;
   description: CreationOptional<string>;
-  location: CreationOptional<string>;
   condition: boolean;
   startDateTime: Date;
   endDateTime: CreationOptional<Date>;

@@ -17,10 +17,6 @@ const Event = db.define<EventTypes>(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    location: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-    },
     condition: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
