@@ -1,6 +1,7 @@
+import { Op } from 'sequelize';
 import { v4 } from 'uuid';
 import { ErrorObject } from '../helpers/error';
-import { EventTypes } from '../interfaces';
+import { EventTypes, PaginationDto } from '../interfaces';
 import { Event, EventRegistrations, User } from '../database/models';
 import * as userServices from './user';
 
@@ -16,11 +17,12 @@ export const createEvent = async (eventBody: EventTypes) => {
   }
 };
 
-export const getEvents = async (limit: number, offset: number) => {
+export const getEvents = async ({ limit, offset, title }: PaginationDto) => {
   try {
-    const users = await Event.findAll({
+    const events = await Event.findAll({
       where: {
         condition: true,
+        title: { [Op.like]: `%${title}%` },
       },
       offset,
       limit,
@@ -28,7 +30,7 @@ export const getEvents = async (limit: number, offset: number) => {
         { model: User, as: 'organizer', attributes: ['id', 'name', 'email'] },
       ],
     });
-    return users;
+    return events;
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }

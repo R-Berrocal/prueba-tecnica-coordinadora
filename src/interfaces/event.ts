@@ -19,3 +19,9 @@ export interface EventTypes
   endDateTime: CreationOptional<Date>;
   organizerId: string;
 }
+
+export interface PaginationDto {
+  offset: number;
+  limit: number;
+  title: string;
+}

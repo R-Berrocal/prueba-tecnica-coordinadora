@@ -289,8 +289,12 @@ export const postEvent = catchAsync(
 export const getAllEvents = catchAsync(
   async ({ query }: Request, res: Response, next: Function) => {
     try {
-      const { limit = 10, offset = 0 } = query;
-      const events = await eventServices.getEvents(+limit, +offset);
+      const { limit = 10, offset = 0, title = '' } = query;
+      const events = await eventServices.getEvents({
+        limit: +limit,
+        offset: +offset,
+        title: title as string,
+      });
       endpointResponse({
         res,
         message: 'GetAll events successfully',
