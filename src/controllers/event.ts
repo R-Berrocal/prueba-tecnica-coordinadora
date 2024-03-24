@@ -375,7 +375,7 @@ import * as eventServices from '../services/event';
 
 /**
  * @swagger
- * /api/events/:id/registrations:
+ * /api/events/{id}/registrations:
  *  get:
  *   tags:
  *   - Event
