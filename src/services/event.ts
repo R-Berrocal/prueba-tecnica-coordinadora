@@ -24,7 +24,9 @@ export const getEvents = async (limit: number, offset: number) => {
       },
       offset,
       limit,
-      include: [{ model: User, as: 'organizer' }],
+      include: [
+        { model: User, as: 'organizer', attributes: ['id', 'name', 'email'] },
+      ],
     });
     return users;
   } catch (error: any) {
