@@ -142,8 +142,17 @@ export const getAssistants = async (eventId: string) => {
 
 export const loadEvents = async (userAuthId: string, file: UploadedFile) => {
   try {
-    const data = await readExcelFile(file.tempFilePath);
-    console.log(data);
+    const events = await readExcelFile(file.tempFilePath);
+    events.map(async (event) => {
+      const newEvent = {
+        ...event,
+        organizerId: userAuthId,
+        startDateTime: new Date(event.startDateTime),
+        endDateTime: new Date(event.endDateTime),
+      };
+      await createEvent(newEvent as EventTypes);
+    });
+    console.log(events);
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }
