@@ -36,7 +36,12 @@ export const getEvents = async (limit: number, offset: number) => {
 
 export const getEventById = async (id: string) => {
   try {
-    const event = await Event.findOne({ where: { id, condition: true } });
+    const event = await Event.findOne({
+      where: { id, condition: true },
+      include: [
+        { model: User, as: 'organizer', attributes: ['id', 'name', 'email'] },
+      ],
+    });
     if (!event) throw new ErrorObject(`Event not found with id: ${id}`, 404);
     return event;
   } catch (error: any) {
@@ -46,9 +51,10 @@ export const getEventById = async (id: string) => {
 
 export const updateEvent = async (
   id: string,
-  { id: eventId, ...eventBody }: EventTypes
+  { id: eventId, organizerId, ...eventBody }: EventTypes
 ) => {
   try {
+    if (organizerId) await userServices.getUserById(organizerId);
     const event = await getEventById(id);
     await event.update(eventBody);
     return event;

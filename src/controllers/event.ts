@@ -31,17 +31,15 @@ import * as eventServices from '../services/event';
  *      type: string
  *     condition:
  *      type: boolean
- *     example:
- *      id: 546758dr4t342323g
- *      title: Test
- *      description: Test
- *      location: Test
- *      startDateTime: 2022-11-04T18:37:47.000Z
- *      endDateTime: 2022-11-04T18:37:47.000Z
- *      organizerId: 546758dr4t342323g
- *      createdAt: 2022-11-04T18:37:47.000Z
- *      updatedAt: 2022-11-04T18:37:47.000Z
- *      condition: true
+ *     organizer:
+ *      type: object
+ *      properties:
+ *       id:
+ *        type: string
+ *       name:
+ *        type: string
+ *       email:
+ *        type: string
  * tags:
  *  name: Event
  *  description: Event routes
@@ -98,27 +96,7 @@ import * as eventServices from '../services/event';
  *           type: string
  *          body:
  *           type: object
- *           properties:
- *            condition:
- *             type: boolean
- *            title:
- *             type: string
- *            description:
- *             type: string
- *            location:
- *             type: string
- *            startDateTime:
- *             type: string
- *            endDateTime:
- *             type: string
- *            organizerId:
- *             type: string
- *            id:
- *             type: string
- *            updatedAt:
- *             type: string
- *            createdAt:
- *             type: string
+ *           $ref: '#/components/schemas/Event'
  *         example:
  *          status: true
  *          code: 200
@@ -162,59 +140,133 @@ import * as eventServices from '../services/event';
  *          type: array
  *          items:
  *           type: object
- *           properties:
- *            condition:
- *             type: boolean
- *            title:
- *             type: string
- *            description:
- *             type: string
- *            location:
- *             type: string
- *            startDateTime:
- *             type: string
- *            endDateTime:
- *             type: string
- *            organizerId:
- *             type: string
- *            id:
- *             type: string
- *            updatedAt:
- *             type: string
- *            createdAt:
- *             type: string
- *            organizer:
- *             type: object
- *             properties:
- *              id:
- *               type: string
- *              name:
- *               type: string
- *              email:
- *               type: string
- *         example:
- *          status: true
- *          code: 200
- *          message: GetAll events successfully
- *          body:
- *           condition: true
- *           title: Test
- *           description: Test
- *           location: Test
- *           startDateTime: 2022-11-04T18:37:47.000Z
- *           endDateTime: 2022-11-04T18:37:47.000Z
- *           organizerId: 546758dr4t342323g
- *           id: 546758dr4t342323g
- *           updatedAt: 2022-11-04T18:37:47.000Z
- *           createdAt: 2022-11-04T18:37:47.000Z
- *           organizer:
- *            id: 546758dr4t342323g
- *            name: Test
- *            email: 0Lh9w@example.com
+ *           $ref: '#/components/schemas/Event'
  *    500:
  *     description: Internal server error
  */
 
+/**
+ * @swagger
+ * /api/events/{id}:
+ *  get:
+ *   tags:
+ *   - Event
+ *   summary: Get event
+ *   description: Get event
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     required: true
+ *     description: Event id
+ *   responses:
+ *    200:
+ *     description: Get event successfully
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         status:
+ *          type: boolean
+ *         code:
+ *          type: number
+ *         message:
+ *          type: string
+ *         body:
+ *          type: object
+ *          $ref: '#/components/schemas/Event'
+ *    404:
+ *     description: Event not found
+ *    500:
+ *     description: Internal server error
+ *
+ */
+
+/**
+ * @swagger
+ * /api/events/{id}:
+ *  put:
+ *   tags:
+ *   - Event
+ *   summary: Update event
+ *   description: Update event
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     required: true
+ *     description: Event id
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        title:
+ *         type: string
+ *        description:
+ *         type: string
+ *        location:
+ *         type: string
+ *        condition:
+ *         type: boolean
+ *        startDateTime:
+ *         type: string
+ *         format: date-time
+ *        endDateTime:
+ *         type: string
+ *         format: date-time
+ *        organizerId:
+ *         type: string
+ *         format: uuid
+ *   responses:
+ *    200:
+ *     description: Update event successfully
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         status:
+ *          type: boolean
+ *         code:
+ *          type: number
+ *         message:
+ *          type: string
+ *         body:
+ *          type: object
+ *          $ref: '#/components/schemas/Event'
+ *    404:
+ *     description: Event not found | User not found
+ *    500:
+ *     description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /api/events/{id}:
+ *  delete:
+ *   tags:
+ *   - Event
+ *   summary: Delete event
+ *   description: Delete event
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     required: true
+ *     description: Event id
+ *   responses:
+ *    200:
+ *     description: Delete event successfully
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        $ref: '#/components/schemas/Event'
+ */
 export const postEvent = catchAsync(
   async ({ body }: Request, res: Response, next: Function) => {
     try {
