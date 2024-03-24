@@ -122,6 +122,19 @@ import * as eventServices from '../services/event';
  *   - Event
  *   summary: Get all events
  *   description: Get all events
+ *   parameters:
+ *   - in: query
+ *     name: offset
+ *     type: number
+ *     description: Offset
+ *   - in: query
+ *     name: limit
+ *     type: number
+ *     description: Limit
+ *   - in: query
+ *     name: title
+ *     type: string
+ *     description: Title
  *   responses:
  *    200:
  *     description: GetAll events successfully
@@ -175,7 +188,50 @@ import * as eventServices from '../services/event';
  *          type: string
  *         body:
  *          type: object
- *          $ref: '#/components/schemas/Event'
+ *          properties:
+ *           id:
+ *            type: string
+ *           title:
+ *            type: string
+ *           description:
+ *            type: string
+ *           location:
+ *            type: string
+ *           startDateTime:
+ *            type: string
+ *            format: date-time
+ *           endDateTime:
+ *            type: string
+ *            format: date-time
+ *           organizerId:
+ *            type: string
+ *            format: uuid
+ *           createdAt:
+ *            type: string
+ *            format: date-time
+ *           updatedAt:
+ *            type: string
+ *            format: date-time
+ *           organizer:
+ *            type: object
+ *            properties:
+ *             id:
+ *              type: string
+ *             name:
+ *              type: string
+ *             email:
+ *              type: string
+ *           assistants:
+ *            type: array
+ *            items:
+ *             type: object
+ *             properties:
+ *              id:
+ *               type: string
+ *              name:
+ *               type: string
+ *              email:
+ *               type: string
  *    404:
  *     description: Event not found
  *    500:
@@ -267,6 +323,93 @@ import * as eventServices from '../services/event';
  *        type: object
  *        $ref: '#/components/schemas/Event'
  */
+
+/**
+ * @swagger
+ * /api/events/{id}/register:
+ *  post:
+ *   tags:
+ *   - Event
+ *   summary: Register event
+ *   description: Register event
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     required: true
+ *     description: Event id
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        userIds:
+ *         type: array
+ *         items:
+ *          type: string
+ *          format: uuid
+ *   responses:
+ *    200:
+ *     description: Register event successfully
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         status:
+ *          type: boolean
+ *         code:
+ *          type: number
+ *         message:
+ *          type: string
+ *         body:
+ *          type: object
+ *          $ref: '#/components/schemas/Event'
+ *    404:
+ *     description: Event not found | User not found
+ *    500:
+ *     description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /api/events/:id/registrations:
+ *  get:
+ *   tags:
+ *   - Event
+ *   summary: Get event registrations
+ *   description: Get assistants of an event
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     required: true
+ *     description: Event id
+ *   responses:
+ *    200:
+ *     description: Get event registrations successfully
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         status:
+ *          type: boolean
+ *         code:
+ *          type: number
+ *         message:
+ *          type: string
+ *         body:
+ *          type: object
+ *          $ref: '#/components/schemas/Event'
+ *    404:
+ *     description: Event not found
+ *    500:
+ *     description: Internal server error
+ */
+
 export const postEvent = catchAsync(
   async ({ body }: Request, res: Response, next: Function) => {
     try {

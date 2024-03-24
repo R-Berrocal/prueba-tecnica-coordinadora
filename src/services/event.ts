@@ -42,6 +42,12 @@ export const getEventById = async (id: string) => {
       where: { id, condition: true },
       include: [
         { model: User, as: 'organizer', attributes: ['id', 'name', 'email'] },
+        {
+          model: User,
+          as: 'assistants',
+          attributes: ['id', 'name', 'email'],
+          through: { attributes: [] },
+        },
       ],
     });
     if (!event) throw new ErrorObject(`Event not found with id: ${id}`, 404);
