@@ -25,6 +25,6 @@ router.put('/:id', updateEventMiddleware, updateEvent);
 router.delete('/:id', validateJWT, deleteEvent);
 router.post('/:id/register', validateJWT, registerAssistants);
 router.get('/:id/registrations', validateJWT, getAssistants);
-router.post('/load', [validateFiles, validateJWT], loadEvents);
+router.post('/load', [validateJWT, validateFiles], loadEvents);
 
 export default router;

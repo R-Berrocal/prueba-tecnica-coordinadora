@@ -413,6 +413,43 @@ import * as eventServices from '../services/event';
  *     description: Internal server error
  */
 
+/**
+ * @swagger
+ * /api/events/load:
+ *   post:
+ *     tags:
+ *       - Event
+ *     summary: Uploads events from an Excel file.
+ *     description: Uploads events from an Excel file.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               events:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Events loaded successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: boolean
+ *                 code:
+ *                   type: number
+ *                 message:
+ *                   type: string
+ *                 body:
+ *                   type: string
+ *       400:
+ *         description: Error - Invalid file
+ */
 export const postEvent = catchAsync(
   async ({ body }: Request, res: Response, next: Function) => {
     try {
