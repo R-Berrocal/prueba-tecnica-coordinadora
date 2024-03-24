@@ -152,7 +152,6 @@ export const loadEvents = async (userAuthId: string, file: UploadedFile) => {
       };
       await createEvent(newEvent as EventTypes);
     });
-    console.log(events);
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }

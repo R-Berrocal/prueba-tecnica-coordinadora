@@ -14,7 +14,6 @@ export const readExcelFile = async (filePath: string) => {
     if (!data) {
       return [];
     }
-    console.log(data);
     return parseEvents(data);
   } catch (error) {
     console.error('Error al leer el archivo Excel:', error);
