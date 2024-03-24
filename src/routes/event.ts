@@ -2,8 +2,10 @@ import express from 'express';
 import {
   deleteEvent,
   getAllEvents,
+  getAssistants,
   getEvent,
   postEvent,
+  registerAssistants,
   updateEvent,
 } from '../controllers/event';
 import {
@@ -19,5 +21,7 @@ router.get('/', validateJWT, getAllEvents);
 router.get('/:id', validateJWT, getEvent);
 router.put('/:id', updateEventMiddleware, updateEvent);
 router.delete('/:id', validateJWT, deleteEvent);
+router.post('/:id/register', validateJWT, registerAssistants);
+router.get('/:id/registrations', validateJWT, getAssistants);
 
 export default router;

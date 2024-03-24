@@ -365,3 +365,44 @@ export const deleteEvent = catchAsync(
     }
   }
 );
+
+export const registerAssistants = catchAsync(
+  async ({ params, body }: Request, res: Response, next: Function) => {
+    try {
+      const { id } = params;
+      const { userIds } = body;
+      const event = await eventServices.registerAssistants(id, userIds);
+      endpointResponse({
+        res,
+        message: 'Register Assistants successfully',
+        body: event,
+      });
+    } catch (error: any) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error Register Assistants] - [index - POST]: ${error.message}`
+      );
+      next(httpError);
+    }
+  }
+);
+
+export const getAssistants = catchAsync(
+  async ({ params }: Request, res: Response, next: Function) => {
+    try {
+      const { id } = params;
+      const assistants = await eventServices.getAssistants(id);
+      endpointResponse({
+        res,
+        message: 'Get Assistants successfully',
+        body: assistants,
+      });
+    } catch (error: any) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error get Assistants] - [index - GET]: ${error.message}`
+      );
+      next(httpError);
+    }
+  }
+);

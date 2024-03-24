@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import { ErrorObject } from '../helpers/error';
 import { EventTypes } from '../interfaces';
-import { Event, User } from '../database/models';
+import { Event, EventRegistrations, User } from '../database/models';
 import * as userServices from './user';
 
 export const createEvent = async (eventBody: EventTypes) => {
@@ -68,6 +68,63 @@ export const deleteEvent = async (id: string) => {
     const event = await getEventById(id);
     event.update({ condition: false });
     return event;
+  } catch (error: any) {
+    throw new ErrorObject(error.message, error.statusCode || 500);
+  }
+};
+
+export const registerAssistants = async (
+  eventId: string,
+  userIds: string[]
+) => {
+  try {
+    const event = await getEventById(eventId);
+    userIds.map(async (userId) => {
+      await existAssistant(eventId, userId);
+      await userServices.getUserById(userId);
+      await EventRegistrations.create({
+        id: v4(),
+        eventId,
+        userId,
+      });
+    });
+
+    return event.reload();
+  } catch (error: any) {
+    throw new ErrorObject(error.message, error.statusCode || 500);
+  }
+};
+
+export const existAssistant = async (eventId: string, userId: string) => {
+  try {
+    const exist = await EventRegistrations.findOne({
+      where: {
+        eventId,
+        userId,
+      },
+    });
+    return exist;
+  } catch (error: any) {
+    throw new ErrorObject(error.message, error.statusCode || 500);
+  }
+};
+
+export const getAssistants = async (eventId: string) => {
+  try {
+    const assistants = await Event.findOne({
+      where: { id: eventId, condition: true },
+      attributes: [],
+      include: [
+        {
+          model: User,
+          as: 'assistants',
+          attributes: ['id', 'name', 'email'],
+          through: { attributes: [] },
+        },
+      ],
+    });
+
+    return assistants;
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }
