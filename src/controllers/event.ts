@@ -20,8 +20,6 @@ import * as eventServices from '../services/event';
  *      type: string
  *     description:
  *      type: string
- *     location:
- *      type: string
  *     startDateTime:
  *      type: string
  *     endDateTime:
@@ -68,8 +66,6 @@ import * as eventServices from '../services/event';
  *           required: true
  *          description:
  *           type: string
- *          location:
- *           type: string
  *          startDateTime:
  *           type: string
  *           required: true
@@ -82,6 +78,12 @@ import * as eventServices from '../services/event';
  *           type: string
  *           required: true
  *           format: uuid
+ *          latitude:
+ *           type: number
+ *           required: true
+ *          longitude:
+ *           type: number
+ *           required: true
  *
  *   responses:
  *     200:
@@ -167,8 +169,8 @@ import * as eventServices from '../services/event';
  *  get:
  *   tags:
  *   - Event
- *   summary: Get event
- *   description: Get event
+ *   summary: Get event Details
+ *   description: Get event Details
  *   parameters:
  *   - in: path
  *     name: id
@@ -197,8 +199,6 @@ import * as eventServices from '../services/event';
  *           title:
  *            type: string
  *           description:
- *            type: string
- *           location:
  *            type: string
  *           startDateTime:
  *            type: string
@@ -235,6 +235,15 @@ import * as eventServices from '../services/event';
  *               type: string
  *              email:
  *               type: string
+ *           location:
+ *            type: array
+ *            items:
+ *             properties:
+ *              latitude:
+ *               type: string
+ *              longitude:
+ *               type: string
+ *
  *    404:
  *     description: Event not found
  *    500:

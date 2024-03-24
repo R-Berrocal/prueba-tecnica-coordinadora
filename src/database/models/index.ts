@@ -27,7 +27,7 @@ Event.belongsToMany(User, {
 
 Event.hasMany(Location, {
   foreignKey: 'eventId',
-  as: 'locations',
+  as: 'location',
 });
 
 Location.belongsTo(Event, {

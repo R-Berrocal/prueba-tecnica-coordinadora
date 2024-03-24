@@ -14,20 +14,21 @@ export const createEvent = async ({
 }: EventDto) => {
   try {
     await userServices.getUserById(eventDto.organizerId);
-    const event = Event.build({
-      id: v4(),
+    const eventId = v4();
+    const event = await Event.create({
+      id: eventId,
       condition: true,
       ...eventDto,
     });
 
-    Location.create({
+    await Location.create({
       id: v4(),
-      eventId: event.id,
+      eventId,
       latitude,
       longitude,
     });
 
-    return await event.save();
+    return event;
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }
@@ -64,6 +65,11 @@ export const getEventById = async (id: string) => {
           attributes: ['id', 'name', 'email'],
           through: { attributes: [] },
         },
+        {
+          model: Location,
+          attributes: ['latitude', 'longitude'],
+          as: 'location',
+        },
       ],
     });
     if (!event) throw new ErrorObject(`Event not found with id: ${id}`, 404);
@@ -75,11 +81,24 @@ export const getEventById = async (id: string) => {
 
 export const updateEvent = async (
   id: string,
-  { organizerId, ...eventBody }: EventDto
+  { organizerId, latitude, longitude, ...eventBody }: EventDto
 ) => {
   try {
-    if (organizerId) await userServices.getUserById(organizerId);
     const event = await getEventById(id);
+    if (latitude && longitude) {
+      await Location.destroy({
+        where: {
+          eventId: id,
+        },
+      });
+      await Location.create({
+        id: v4(),
+        eventId: id,
+        latitude,
+        longitude,
+      });
+    }
+    if (organizerId) await userServices.getUserById(organizerId);
     await event.update(eventBody);
     return event;
   } catch (error: any) {
@@ -157,13 +176,14 @@ export const getAssistants = async (eventId: string) => {
 export const loadEvents = async (userAuthId: string, file: UploadedFile) => {
   try {
     const events = await readExcelFile(file.tempFilePath);
-    events.map(async (event) => {
+    events.map(async (eventFile) => {
       const newEvent = {
-        ...event,
+        ...eventFile,
         organizerId: userAuthId,
-        startDateTime: new Date(event.startDateTime),
-        endDateTime: new Date(event.endDateTime),
+        startDateTime: new Date(eventFile.startDateTime),
+        endDateTime: new Date(eventFile.endDateTime),
       };
+
       await createEvent(newEvent as EventDto);
     });
   } catch (error: any) {

@@ -3,4 +3,6 @@ export interface ILoadEvent {
   description: string;
   startDateTime: Date;
   endDateTime: Date;
+  latitude: number;
+  longitude: number;
 }

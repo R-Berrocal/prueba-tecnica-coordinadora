@@ -7,13 +7,14 @@ export const createEventMiddleware = [
   check('description', 'Must be a String')
     .isString()
     .optional({ nullable: true }),
-  check('location', 'Must be a String').isString().optional({ nullable: true }),
   check('startDateTime', 'Must be a Date').isISO8601().toDate().notEmpty(),
   check('endDateTime', 'Must be a Date')
     .isISO8601()
     .toDate()
     .optional({ nullable: true }),
   check('organizerId', 'Must be a UUID').isUUID().notEmpty(),
+  check('latitude', 'Must be a Number').isNumeric().notEmpty(),
+  check('longitude', 'Must be a Number').isNumeric().notEmpty(),
   validateJWT,
   validateCheck,
 ];
@@ -23,7 +24,6 @@ export const updateEventMiddleware = [
   check('description', 'Must be a String')
     .isString()
     .optional({ nullable: true }),
-  check('location', 'Must be a String').isString().optional({ nullable: true }),
   check('startDateTime', 'Must be a Date')
     .isISO8601()
     .toDate()
@@ -33,6 +33,8 @@ export const updateEventMiddleware = [
     .toDate()
     .optional({ nullable: true }),
   check('organizerId', 'Must be a UUID').isUUID().optional(),
+  check('latitude', 'Must be a Number').isNumeric().optional(),
+  check('longitude', 'Must be a Number').isNumeric().optional(),
   validateJWT,
   validateCheck,
 ];
