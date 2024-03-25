@@ -53,3 +53,7 @@ METHOD: POST
 METHOD: POST
 /api/events/assistantsByDay
 ```
+
+5. Modelo Relacional de la base de datos
+
+![alt text](modelo-relacional-events-db.png)
