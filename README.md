@@ -32,10 +32,14 @@ http://localhost:3000/api/docs/
 
 ## Notas:
 
+1. Video de explicacion de la solucion y ejecución del reto
+```
+https://drive.google.com/drive/folders/1SrCVZ9oZiV3i07vzHaL_UkfIqlYi_Sg9?usp=sharing
+```
 
-1. El archivo ```init.sql``` se usa para reconstruir tus tablas y agregar algunos registros de prueba
+2. El archivo ```init.sql``` se usa para reconstruir tus tablas y agregar algunos registros de prueba
 
-2. El usuario de prueba que puedes usar para iniciar sesion al seguir todos los pasos anteriores
+3. El usuario de prueba que puedes usar para iniciar sesion al seguir todos los pasos anteriores
 ```
 {
     "email":"test@test.com",
@@ -43,17 +47,17 @@ http://localhost:3000/api/docs/
 }
 ```
 
-3. El archivo ```events-template.xlsx``` se usa para probar el endpoint
+4. El archivo ```events-template.xlsx``` se usa para probar el endpoint
 ```
 METHOD: POST
 /api/events/load
 ```
-4. El archivo ```events-assistants.json``` se usa para enviar en el body toda la información necesaria para ejecutar el endpoint
+5. El archivo ```events-assistants.json``` se usa para enviar en el body toda la información necesaria para ejecutar el endpoint
 ```
 METHOD: POST
 /api/events/assistantsByDay
 ```
 
-5. Modelo Relacional de la base de datos
+6. Modelo Relacional de la base de datos
 
 ![alt text](modelo-relacional-events-db.png)
