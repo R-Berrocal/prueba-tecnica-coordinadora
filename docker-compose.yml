@@ -17,6 +17,41 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - 5050:80
+    networks:
+      - api-events
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@coordinadora.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+
+  app:
+    build:
+      context: .
+      target: ${NODE_ENV}
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 5
+    restart: always
+    ports:
+      - 3000-3004:${PORT}
+    networks:
+      - api-events
+    depends_on:
+      - postgres-db
+    environment:
+      PORT: ${PORT}
+      DATABASE_NAME: events-db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_HOST: postgres-db
+      DATABASE_PORT: 5432
+      SECRET_OR_PRIVATE_KEY: esteEsmiSecretKey
+      MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN}
 networks:
   api-events:
     driver: bridge
