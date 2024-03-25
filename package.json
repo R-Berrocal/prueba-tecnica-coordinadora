@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/main.ts"
+    "dev": "nodemon ./src/main.ts",
+    "start": "node ./dist/main.js"
   },
   "keywords": [],
   "author": "",

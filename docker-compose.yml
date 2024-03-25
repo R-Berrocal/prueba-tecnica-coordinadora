@@ -17,6 +17,32 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 
+  app:
+    build:
+      context: .
+      target: prod
+      dockerfile: Dockerfile
+
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    restart: always
+    container_name: api-events-container
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - api-events
+    depends_on:
+      - postgres-db
+    environment:
+      PORT: ${PORT}
+      DATABASE_NAME: events-db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_HOST: postgres-db
+      DATABASE_PORT: 5432
+      SECRET_OR_PRIVATE_KEY: esteEsmiSecretKey
+      MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN}
 networks:
   api-events:
     driver: bridge
