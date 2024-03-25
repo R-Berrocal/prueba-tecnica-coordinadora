@@ -34,14 +34,11 @@ services:
       context: .
       target: ${NODE_ENV}
       dockerfile: Dockerfile
-
-    volumes:
-      - .:/app/
-      - /app/node_modules
+    deploy:
+      replicas: 5
     restart: always
-    container_name: api-events-container
     ports:
-      - ${PORT}:${PORT}
+      - 3000-3004:${PORT}
     networks:
       - api-events
     depends_on:
