@@ -511,6 +511,93 @@ import * as eventServices from '../services/event';
  *     description: Internal server error
  */
 
+/**
+ * @swagger
+ * /api/events/assistantsByDay:
+ *  post:
+ *   tags:
+ *   - Event
+ *   summary: Get assistants by day
+ *   description: Get assistants by day
+ *   requestBody:
+ *      required: true
+ *      content:
+ *       application/json:
+ *        schema:
+ *         type: object
+ *         properties:
+ *           events:
+ *            type: array
+ *            items:
+ *             type: object
+ *             properties:
+ *              id:
+ *               type: string
+ *              title:
+ *               type: string
+ *              description:
+ *               type: string
+ *              assistants:
+ *               type: array
+ *               items:
+ *                type: object
+ *                properties:
+ *                 id:
+ *                  type: string
+ *                 name:
+ *                  type: string
+ *                 email:
+ *                  type: string
+ *                 event_registrations:
+ *                  type: object
+ *                  properties:
+ *                   createdAt:
+ *                    type: string
+ *                    format: date-time
+ *   responses:
+ *     200:
+ *      description: Get assistants by day successfully
+ *      content:
+ *       application/json:
+ *        schema:
+ *         type: object
+ *         properties:
+ *          status:
+ *           type: boolean
+ *          code:
+ *            type: number
+ *          message:
+ *           type: string
+ *          body:
+ *           type: object
+ *           properties:
+ *            id:
+ *             type: string
+ *            title:
+ *             type: string
+ *            description:
+ *             type: string
+ *            assistantsByDay:
+ *             type: object
+ *             properties:
+ *              domingo:
+ *               type: number
+ *              lunes:
+ *               type: number
+ *              martes:
+ *               type: number
+ *              miercoles:
+ *               type: number
+ *              jueves:
+ *               type: number
+ *              viernes:
+ *               type: number
+ *              sabado:
+ *               type: number
+ *   500:
+ *    description: Internal server error
+ */
+
 export const postEvent = catchAsync(
   async ({ body }: Request, res: Response, next: Function) => {
     try {
