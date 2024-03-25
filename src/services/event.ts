@@ -215,35 +215,38 @@ export const getEventNearbyLocations = async (
 };
 
 export const getNumberAssistantsByDay = ({ events }: EventsAssistants) => {
-  const eventDictionary: any = {
-    id: '',
-    title: '',
-    description: '',
-    assistantsByDay: {
-      domingo: 0,
-      lunes: 0,
-      martes: 0,
-      miercoles: 0,
-      jueves: 0,
-      viernes: 0,
-      sábado: 0,
-    },
-  };
+  const eventsDictionary = events.map(
+    ({ id, title, description, assistants }) => {
+      const eventDictionary: any = {
+        id: '',
+        title: '',
+        description: '',
+        assistantsByDay: {
+          domingo: 0,
+          lunes: 0,
+          martes: 0,
+          miercoles: 0,
+          jueves: 0,
+          viernes: 0,
+          sábado: 0,
+        },
+      };
 
-  events.map(({ id, title, description, assistants }) => {
-    const daysAssistants = assistants.map((assistant) => {
-      return new Date(assistant.event_registrations.createdAt)
-        .toLocaleDateString('es-ES', { weekday: 'long' })
-        .toLowerCase();
-    });
+      const daysAssistants = assistants.map((assistant) => {
+        return new Date(assistant.event_registrations.createdAt)
+          .toLocaleDateString('es-ES', { weekday: 'long' })
+          .toLowerCase();
+      });
 
-    eventDictionary.id = id;
-    eventDictionary.title = title;
-    eventDictionary.description = description;
-    daysAssistants.map((day) => {
-      eventDictionary.assistantsByDay[day] += 1;
-    });
-  });
+      eventDictionary.id = id;
+      eventDictionary.title = title;
+      eventDictionary.description = description;
+      daysAssistants.map((day) => {
+        eventDictionary.assistantsByDay[day] += 1;
+      });
+      return eventDictionary;
+    }
+  );
 
-  return eventDictionary;
+  return eventsDictionary;
 };
