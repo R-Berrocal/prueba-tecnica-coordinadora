@@ -459,6 +459,59 @@ import * as eventServices from '../services/event';
  *       400:
  *         description: Error - Invalid file
  */
+
+/**
+ * @swagger
+ * /api/events/{id}/nearby:
+ *  get:
+ *   tags:
+ *   - Event
+ *   summary: GetAll nearby locations
+ *   description: Get nearby locations
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     required: true
+ *     description: Event id
+ *   - in: query
+ *     name: radius
+ *     type: number
+ *     description: Radius in meters
+ *   responses:
+ *    200:
+ *     description: GetAll nearby locations successfully
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         status:
+ *          type: boolean
+ *         code:
+ *          type: number
+ *         message:
+ *          type: string
+ *         body:
+ *          type: array
+ *          items:
+ *           type: object
+ *           properties:
+ *            text:
+ *             type: string
+ *            placeName:
+ *             type: string
+ *            coordinates:
+ *             type: array
+ *             items:
+ *              type: number
+ *            category:
+ *             type: string
+ *    500:
+ *     description: Internal server error
+ */
+
+
 export const postEvent = catchAsync(
   async ({ body }: Request, res: Response, next: Function) => {
     try {
