@@ -511,7 +511,6 @@ import * as eventServices from '../services/event';
  *     description: Internal server error
  */
 
-
 export const postEvent = catchAsync(
   async ({ body }: Request, res: Response, next: Function) => {
     try {
@@ -695,6 +694,27 @@ export const getEventNearbyLocations = catchAsync(
       const httpError = createHttpError(
         error.statusCode,
         `[Error get event nearby locations] - [index - GET]: ${error.message}`
+      );
+      next(httpError);
+    }
+  }
+);
+
+export const getNumberAssistantsByDay = catchAsync(
+  async ({ body }: Request, res: Response, next: Function) => {
+    try {
+      const eventDictionary = eventServices.getNumberAssistantsByDay({
+        events: body.events,
+      });
+      endpointResponse({
+        res,
+        message: 'Get number of Assistants by day successfully',
+        body: eventDictionary,
+      });
+    } catch (error: any) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error get number of Assistants by day] - [index - GET]: ${error.message}`
       );
       next(httpError);
     }

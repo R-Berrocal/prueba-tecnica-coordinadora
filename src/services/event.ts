@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 import { UploadedFile } from 'express-fileupload';
 import { ErrorObject } from '../helpers/error';
 import { readExcelFile } from '../helpers/readExcelFile';
-import { EventDto, PaginationDto } from '../interfaces';
+import { EventDto, EventsAssistants, PaginationDto } from '../interfaces';
 import { Event, EventRegistrations, Location, User } from '../database/models';
 import * as userServices from './user';
 import { getNearbyLocations } from '../helpers/getNearbyLocations';
@@ -163,7 +163,7 @@ export const getAssistants = async (eventId: string) => {
           model: User,
           as: 'assistants',
           attributes: ['id', 'name', 'email'],
-          through: { attributes: [] },
+          through: { attributes: ['createdAt'] },
         },
       ],
     });
@@ -212,4 +212,38 @@ export const getEventNearbyLocations = async (
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);
   }
+};
+
+export const getNumberAssistantsByDay = ({ events }: EventsAssistants) => {
+  const eventDictionary: any = {
+    id: '',
+    title: '',
+    description: '',
+    assistantsByDay: {
+      domingo: 0,
+      lunes: 0,
+      martes: 0,
+      miercoles: 0,
+      jueves: 0,
+      viernes: 0,
+      sábado: 0,
+    },
+  };
+
+  events.map(({ id, title, description, assistants }) => {
+    const daysAssistants = assistants.map((assistant) => {
+      return new Date(assistant.event_registrations.createdAt)
+        .toLocaleDateString('es-ES', { weekday: 'long' })
+        .toLowerCase();
+    });
+
+    eventDictionary.id = id;
+    eventDictionary.title = title;
+    eventDictionary.description = description;
+    daysAssistants.map((day) => {
+      eventDictionary.assistantsByDay[day] += 1;
+    });
+  });
+
+  return eventDictionary;
 };

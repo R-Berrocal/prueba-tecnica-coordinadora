@@ -9,6 +9,7 @@ import {
   updateEvent,
   loadEvents,
   getEventNearbyLocations,
+  getNumberAssistantsByDay,
 } from '../controllers/event';
 import {
   createEventMiddleware,
@@ -28,5 +29,6 @@ router.post('/:id/register', validateJWT, registerAssistants);
 router.get('/:id/registrations', validateJWT, getAssistants);
 router.post('/load', [validateJWT, validateFiles], loadEvents);
 router.get('/:id/nearby', validateJWT, getEventNearbyLocations);
+router.post('/assistantsByDay', validateJWT, getNumberAssistantsByDay);
 
 export default router;

@@ -1,0 +1,49 @@
+{
+  "events": [
+    {
+      "id": "ac28eccd-ece3-49a5-b8d0-962bbbb81432",
+      "title": "Primer evento",
+      "description": "Este es un evento genial",
+      "condition": true,
+      "startDateTime": "2024-03-23T01:29:29.593Z",
+      "endDateTime": "2024-03-26T01:29:29.593Z",
+      "organizerId": "02b8b305-6104-4df3-96f7-be040f24798d",
+      "createdAt": "2024-03-24T18:07:41.485Z",
+      "updatedAt": "2024-03-24T18:07:41.485Z",
+      "assistants": [
+        {
+          "id": "02b8b305-6104-4df3-96f7-be040f24798d",
+          "name": "Juancho",
+          "email": "juancho@test.com",
+          "event_registrations": {
+            "createdAt": "2024-03-24T02:38:22.987Z"
+          }
+        },
+        {
+          "id": "02b8b305-6104-4df3-96f7-be040f24798d",
+          "name": "Roberto Berrocal",
+          "email": "roberto@test.com",
+          "event_registrations": {
+            "createdAt": "2024-03-24T02:38:22.987Z"
+          }
+        },
+        {
+          "id": "02b8b305-6104-4df3-96f7-be040f24798d",
+          "name": "Ricardo",
+          "email": "ricardo@test.com",
+          "event_registrations": {
+            "createdAt": "2024-03-26T02:38:22.987Z"
+          }
+        },
+        {
+          "id": "02b8b305-6104-4df3-96f7-be040f24798d",
+          "name": "saidy",
+          "email": "saidy@test.com",
+          "event_registrations": {
+            "createdAt": "2024-03-25T02:38:22.987Z"
+          }
+        }
+      ]
+    }
+  ]
+}
