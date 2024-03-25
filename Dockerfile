@@ -1,4 +1,5 @@
 FROM node:19-alpine3.15 as dev
+RUN apk add --no-cache git
 WORKDIR /app
 COPY package.json ./
 RUN yarn install
@@ -33,4 +34,4 @@ WORKDIR /app
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
-CMD [ "node","dist/main.js"]
+CMD ["node","dist/main.js"]

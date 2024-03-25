@@ -23,6 +23,8 @@
     "@types/swagger-ui-express": "^4.1.6",
     "@types/uuid": "^9.0.8",
     "@types/xlsx-populate": "git+https://github.com/JanLoebel/types-xlsx-populate.git",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   },
   "dependencies": {

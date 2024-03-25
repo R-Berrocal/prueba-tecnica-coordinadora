@@ -1,11 +1,9 @@
-CREATE DATABASE IF NOT EXISTS "events-db";
+DROP TABLE IF EXISTS "public"."user" CASCADE;
+DROP TABLE IF EXISTS "public"."event" CASCADE;
+DROP TABLE IF EXISTS "public"."event_registrations" CASCADE;
+DROP TABLE IF EXISTS "public"."locations" CASCADE;
 
-DROP TABLE IF EXISTS "public"."user";
-DROP TABLE IF EXISTS "public"."event";
-DROP TABLE IF EXISTS "public"."event_registrations";
-DROP TABLE IF EXISTS "public"."locations";
-
-CREATE TABLE "public"."user" (
+CREATE TABLE IF NOT EXISTS "public"."user" (
     "id" uuid NOT NULL,
     "name" varchar NOT NULL,
     "email" varchar NOT NULL,
@@ -18,7 +16,7 @@ CREATE TABLE "public"."user" (
 
 INSERT INTO "public"."user" ("id","name","email","password","condition","createdAt","updatedAt") VALUES ('02b8b305-6104-4df3-96f7-be040f24798d','Roberto Berrocal','test@test.com','$2a$10$q9L2KBFv6/9LRlGhpMqQfuwvxh6jc5tGHZAeiGi2G5nxnX.t0A7YC','TRUE','2024-03-22 22:45:55.121+00','2024-03-23 14:24:24.414+00');
 
-CREATE TABLE "public"."event" (
+CREATE TABLE IF NOT EXISTS "public"."event" (
     "id" uuid NOT NULL,
     "title" varchar NOT NULL,
     "description" text,
@@ -33,7 +31,7 @@ CREATE TABLE "public"."event" (
 
 INSERT INTO "public"."event" ("id","title","description","startDateTime","endDateTime","organizerId","createdAt","updatedAt","condition") VALUES ('ac28eccd-ece3-49a5-b8d0-962bbbb81432','Primer evento','Este es un evento genial','2024-03-23 01:29:29.593+00','2024-03-26 01:29:29.593+00','02b8b305-6104-4df3-96f7-be040f24798d','2024-03-24 18:07:41.485+00','2024-03-24 18:07:41.485+00','TRUE');
 
-CREATE TABLE "public"."event_registrations" (
+CREATE TABLE IF NOT EXISTS "public"."event_registrations" (
     "id" uuid NOT NULL,
     "userId" uuid NOT NULL,
     "eventId" uuid NOT NULL,
@@ -44,7 +42,7 @@ CREATE TABLE "public"."event_registrations" (
 
 INSERT INTO "public"."event_registrations" ("id","userId","eventId","createdAt","updatedAt") VALUES ('5c53b876-4ade-4bb0-8602-1601488aa4f3','02b8b305-6104-4df3-96f7-be040f24798d','ac28eccd-ece3-49a5-b8d0-962bbbb81432','2024-03-25 02:38:22.987+00','2024-03-25 02:38:22.987+00');
 
-CREATE TABLE "public"."locations" (
+CREATE TABLE IF NOT EXISTS "public"."locations" (
     "id" uuid NOT NULL,
     "eventId" uuid NOT NULL,
     "latitude" float8 NOT NULL,
