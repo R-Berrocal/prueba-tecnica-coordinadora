@@ -192,7 +192,10 @@ export const loadEvents = async (userAuthId: string, file: UploadedFile) => {
   }
 };
 
-export const getEventNearbyLocations = async (eventId: string) => {
+export const getEventNearbyLocations = async (
+  eventId: string,
+  radius: number
+) => {
   try {
     const eventLocation = await Location.findOne({
       where: { eventId },
@@ -200,7 +203,11 @@ export const getEventNearbyLocations = async (eventId: string) => {
 
     if (!eventLocation) throw new ErrorObject('Event not found', 404);
     const { latitude, longitude } = eventLocation;
-    const nearbyLocations = await getNearbyLocations(latitude, longitude, 1000);
+    const nearbyLocations = await getNearbyLocations(
+      latitude,
+      longitude,
+      radius
+    );
     return nearbyLocations;
   } catch (error: any) {
     throw new ErrorObject(error.message, error.statusCode || 500);

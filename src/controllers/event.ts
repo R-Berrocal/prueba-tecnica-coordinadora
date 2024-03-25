@@ -625,10 +625,14 @@ export const loadEvents = catchAsync(
 );
 
 export const getEventNearbyLocations = catchAsync(
-  async ({ params }: Request, res: Response, next: Function) => {
+  async ({ params, query }: Request, res: Response, next: Function) => {
     try {
       const { id } = params;
-      const locations = await eventServices.getEventNearbyLocations(id);
+      const { radius = 100 } = query;
+      const locations = await eventServices.getEventNearbyLocations(
+        id,
+        +radius
+      );
       endpointResponse({
         res,
         message: 'Get event nearby locations successfully',
