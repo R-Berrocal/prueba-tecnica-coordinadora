@@ -11,7 +11,7 @@ export const login = async (email: string, password: string) => {
     }
     const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
-      throw new ErrorObject('Password / email incorrect', 400);
+      throw new ErrorObject('Password / email incorrect', 404);
     }
     return {
       user,
